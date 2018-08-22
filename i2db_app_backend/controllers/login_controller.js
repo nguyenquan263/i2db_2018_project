@@ -15,7 +15,6 @@ router.post('/', function (req, res) {
                 res.send(err);
             }
             else {
-                // res.send({ error: 0, message: 'Your query excecuted completely', data: result.length });
                 if (result.length > 0){
                     console.log(result);
                     res.send({ error: 0, message: 'Log-in sucessfully', taker_id: result[0].TAKER_ID });
