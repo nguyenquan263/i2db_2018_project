@@ -17,14 +17,15 @@ router.post('/', function (req, res) {
             else {
                 // res.send({ error: 0, message: 'Your query excecuted completely', data: result.length });
                 if (result.length > 0){
-                    res.send({ error: 0, message: 'Log-in sucessfully', is_success: true });
+                    console.log(result);
+                    res.send({ error: 0, message: 'Log-in sucessfully', taker_id: result[0].TAKER_ID });
                 } else {
-                    res.send({ error: 4, message: 'Log-in fail', is_success: false });
+                    res.send({ error: 4, message: 'Log-in fail', taker_id: null });
                 }
             }
         });
     } else {
-        res.send("hihi");
+        res.send({ error: 2, message: 'Error Mising field' });
     }
 
 
