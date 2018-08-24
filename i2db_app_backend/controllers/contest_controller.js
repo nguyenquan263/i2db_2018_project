@@ -55,5 +55,23 @@ router.delete('/:contest_id', function (req, res) {
 
 });
 
+router.put('/:contest_id', function (req, res) {
+    if (req.body.contest_name && req.body.status) {
+        db.query('UPDATE CONTESTS SET CONTEST_NAME = ?, STATUS = ? WHERE CONTEST_ID = ?', [req.body.contest_name, req.body.status, req.params.contest_id], function (err, result) {
+            if (err) {
+                res.send({ error: 1, message: 'Error of database' });
+            }
+            else {
+                res.send({ error: 0, message: 'Update Complete' });
+            }
+
+        });
+    } else {
+        res.send({ error: 2, message: 'Error Mising field' });
+    }
+
+
+});
+
 
 module.exports = router;

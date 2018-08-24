@@ -24,6 +24,7 @@ app.use('/answer', require('./controllers/answer_controller'));
 app.use('/taking', require('./controllers/taking_controller'));
 app.use('/selection', require('./controllers/selection_controller'));
 app.use('/maker', require('./controllers/maker_controller'));
+app.use('/score', require('./controllers/score_controller'));
 
 
 
