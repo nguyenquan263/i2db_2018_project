@@ -97,10 +97,16 @@ router.post('/', function (req, res) {
     AND T2.TEST_ID =? 
     AND T1.TAKER_ID = ?`, [req.body.taking_id, req.body.test_id, req.body.taker_id], function (err, result) {
                 if (err) {
+                    console.log(err);
                     res.send({ error: 1, message: 'Error of database' });
                 }
                 else {
-                    res.send({ error: 0, message: 'Your query excecuted completely', data: result });
+                    //sum score.
+                    var sum_score = 0
+                    for (var i = 0; i < result.length; i++){
+                        sum_score+= result[i].SCORE_EARNED;
+                    }
+                    res.send({ error: 0, total_score: sum_score, data: result, message: 'Your query excecuted completely'});
                 }
 
             });
@@ -111,4 +117,18 @@ router.post('/', function (req, res) {
 
 });
 
+router.post("/set_score/:taking_id/:total_score", function(req, res){
+    if (req.params.taking_id && req.params.total_score){
+        db.query("UPDATE TAKINGS SET TOTAL_SCORE = ? WHERE TAKING_ID = ?", [req.params.total_score, req.params.taking_id], function(err, result){
+            if (err) {
+                res.send({ error: 1, message: 'Error of database' });
+            }
+            else {
+                res.send({ error: 0, message: 'Update Complete' });
+            }
+        });
+    } else {
+        res.send({ error: 2, message: 'Error Mising field' });
+    }
+});
 module.exports = router;
