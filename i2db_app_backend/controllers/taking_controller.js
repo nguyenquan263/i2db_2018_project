@@ -41,7 +41,11 @@ router.post('/', function (req, res) {
                     res.send({ error: 1, message: 'Error of database' });
                 }
                 else {
-                    current_time = parseInt(result[0].TAKING_TIME.toString()) + 1;
+                    if (result.lengh > 0){
+                        current_time = parseInt(result[0].TAKING_TIME.toString()) + 1;
+                    } else {
+                        current_time = 1;
+                    }
                     db.query('INSERT INTO TAKINGS VALUE(NULL,' + req.body.taker_id + ',' + req.body.test_id + ',' + current_time + ',NULL)', function (err, result) {
                         if (err) {
                             res.send({ error: 1, message: 'Error of database', current_id: null });
