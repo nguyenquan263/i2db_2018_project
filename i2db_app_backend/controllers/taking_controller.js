@@ -19,7 +19,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/:taker_id', function (req, res) {
-    db.query('SELECT * FROM TAKINGS WHERE TAKER_ID='+req.params.taker_id, function (err, result) {
+    db.query('SELECT * FROM TAKINGS WHERE TAKER_ID=' + req.params.taker_id, function (err, result) {
         if (err) {
             res.send({ error: 1, message: 'Error of database' });
         }
@@ -41,8 +41,8 @@ router.post('/', function (req, res) {
                     res.send({ error: 1, message: 'Error of database' });
                 }
                 else {
-                    current_time = parseInt(result[0].TAKING_TIME.toString())+1;
-                    db.query('INSERT INTO TAKINGS VALUE(NULL,'+req.body.taker_id+','+req.body.test_id+','+current_time+',NULL)', function (err, result) {
+                    current_time = parseInt(result[0].TAKING_TIME.toString()) + 1;
+                    db.query('INSERT INTO TAKINGS VALUE(NULL,' + req.body.taker_id + ',' + req.body.test_id + ',' + current_time + ',NULL)', function (err, result) {
                         if (err) {
                             res.send({ error: 1, message: 'Error of database', current_id: null });
                         }
@@ -64,6 +64,23 @@ router.post('/', function (req, res) {
 
 
 
+});
+
+router.get("/zero_score/:taking_id", function (req, res) {
+    var taking_id = req.params.taking_id;
+    if (taking_id) {
+        db.query('UPDATE TAKINGS SET TOTAL_SCORE = 0 WHERE TAKING_ID = ?', req.params.taking_id, function (err, result) {
+            if (err) {
+                res.send({ error: 1, message: 'Error of database' });
+            }
+            else {
+                res.send({ error: 0, message: 'Update Complete' });
+            }
+
+        });
+    } else {
+        res.send({ error: 2, message: 'Error Mising field' });
+    }
 });
 
 router.delete('/:taking_id', function (req, res) {
